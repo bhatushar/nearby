@@ -1,2 +1,43 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+    import { onMount } from 'svelte';
+    import ToggleButton from '$lib/ToggleButton.svelte';
+
+    let useDarkMode = false;
+    let bodyElem: HTMLElement | null = null;
+
+    $: {
+        if (useDarkMode) bodyElem?.classList.add('dark');
+        else bodyElem?.classList.remove('dark');
+        console.log({ useDarkMode });
+    }
+
+    onMount(() => {
+        bodyElem = document.body;
+    });
+</script>
+
+<svelte:head>
+    <script src="https://kit.fontawesome.com/e8ade36903.js" crossorigin="anonymous"></script>
+</svelte:head>
+
+<div class="h-screen bg-background-light dark:bg-background-dark">
+    <div class="absolute top-2 right-2 sm:top-3 sm:right-4">
+        <ToggleButton
+            id="themeToggler"
+            iconOff="fa-sun"
+            iconOn="fa-moon"
+            bind:checked={useDarkMode} />
+    </div>
+
+    <section class="flex flex-col h-full justify-center items-center space-y-2">
+        <h1
+            class="font-heading text-7xl sm:text-8xl md:text-9xl text-primary-light dark:text-primary-dark">
+            nearby
+        </h1>
+
+        <p
+            class="font-body font-semibold text-base sm:text-lg md:text-xl text-text-light dark:text-text-dark">
+            A new way to meet people
+        </p>
+    </section>
+</div>
